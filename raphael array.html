@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Диаграмма случайных чисел</title>
+    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
+    <style>
+        #canvas {
+            width: 600px;
+            height: 400px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas"></div>
+
+    <script>
+        // 1. Генерируем массив из 10 случайных чисел от 1 до 100
+        const randomNumbers = Array.from({ length: 10 }, () => Math.floor(Math.random() * 100) + 1);
+        console.log("Случайные числа:", randomNumbers);
+
+        // 2. Фильтруем числа больше 50 и сортируем по убыванию (стрелочные функции)
+        const filteredAndSorted = randomNumbers
+            .filter(num => num > 50)
+            .sort((a, b) => b - a);
+        console.log("Отфильтрованные и отсортированные:", filteredAndSorted);
+
+        // 3. Создаём холст для рисования
+        const paper = Raphael("canvas", 600, 400);
+
+        // 4. Рисуем столбчатую диаграмму
+        const barWidth = 40;
+        const gap = 20;
+        const maxBarHeight = 300;
+
+        filteredAndSorted.forEach((value, index) => {
+            // Вычисляем высоту столбца пропорционально значению
+            const barHeight = (value / 100) * maxBarHeight;
+
+            // Рисуем столбец
+            const bar = paper.rect(
+                index * (barWidth + gap) + 50, // x
+                350 - barHeight,               // y (чтобы диаграмма росла вверх)
+                barWidth,                      // ширина
+                barHeight                      // высота
+            );
+
+            // Задаём цвет и подпись
+            bar.attr({
+                fill: `#${Math.floor(Math.random() * 16777215).toString(16)}`, // Случайный цвет
+                stroke: "#333",
+            });
+
+            // Подписываем значение над столбцом
+            paper.text(
+                index * (barWidth + gap) + 70,
+                340 - barHeight,
+                value.toString()
+            ).attr({
+                "font-size": 12,
+                fill: "#333",
+            });
+        });
+
+        // 5. Подписываем ось X
+        paper.text(300, 380, "Отфильтрованные числа (>50)").attr({
+            "font-size": 14,
+            fill: "#333",
+        });
+    </script>
+</body>
+</html>

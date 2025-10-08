@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Пример с Raphael</title>
+    <script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
+    <style>
+        #canvas {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas"></div>
+
+    <script>
+        // Создаём холст для рисования
+        const paper = Raphael("canvas", 500, 500);
+
+        // Рисуем круг с центром в (100, 100) и радиусом 50
+        const circle = paper.circle(100, 100, 50);
+
+        const rect =paper.rect(200, 200, 200, 200);
+        rect.attr({
+            fill: "#ebdb34",
+            stroke: "#333",
+            "stroke-width": 3,
+        }
+
+        );
+        rect.node.onclick = function() {
+            alert("Вы кликнули по квадрату")
+        };
+        circle.node.onclick = function() {
+            alert("Вы кликнули по кругу")
+        };
+
+        // Задаём цвет заливки и обводки
+        circle.attr({
+            fill: "#ff9900",
+            stroke: "#333",
+            "stroke-width": 3,
+        });
+
+        // Анимация: увеличиваем круг в 2 раза
+        circle.animate({
+            r: 100, // Новый радиус
+            fill: "#ff0000", // Меняем цвет
+        }, 2000); // Длительность анимации -- 2 секунды
+    </script>
+    
+</body>
+</html>
